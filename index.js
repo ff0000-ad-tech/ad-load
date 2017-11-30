@@ -353,7 +353,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 				break;
 			case 'ttf' :
 			case 'woff' :
-					loaderType = 'FontLoader';
+					loaderType = FontLoader;
 				break;
 			case 'json' :
 			case 'fba' :
