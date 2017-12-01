@@ -120,6 +120,10 @@ import FontLoader from './lib/single/FontLoader.js'
 
 class Blank {}
 
+export {
+	Utils as LoaderUtils
+}
+
 export default class Loader extends mix(Blank).with(LoaderBase) {
 	constructor(...args) {
 		super(...args)
