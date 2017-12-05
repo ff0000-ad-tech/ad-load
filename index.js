@@ -121,7 +121,11 @@ import FontLoader from './lib/single/FontLoader.js'
 class Blank {}
 
 export {
-	Utils as LoaderUtils
+	Utils as LoaderUtils,
+	ImageLoader,
+	InlineLoader,
+	DataLoader,
+	FontLoader,
 }
 
 export default class Loader extends mix(Blank).with(LoaderBase) {
