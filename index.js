@@ -31,7 +31,7 @@
 			singleLoader.load();
 
 			function handleLoadComplete( target ) {
-				trace( target.content[0].dataRaw );
+				console.log( target.content[0].dataRaw );
 			}
 		</codeblock>
 		<br><br>
@@ -44,7 +44,7 @@
 			arrayLoader.load();
 
 			function handleLoadComplete( target ) {
-				trace( target.content[0].dataRaw );
+				console.log( target.content[0].dataRaw );
 			}		
 		</codeblock>
 		<br><br>
@@ -62,7 +62,7 @@
 			myLoader.load();
 
 			function handleLoadComplete( target ) {
-				trace( target.content[0].dataRaw );
+				console.log( target.content[0].dataRaw );
 			}		
 		</codeblock>
 		<br><br>
@@ -83,23 +83,23 @@
 			masterLoader.load();
 
 			function handleLoadComplete( target ) {
-				trace( target.content[0].dataRaw );
+				console.log( target.content[0].dataRaw );
 			}
 			function handleLoadProgress( target ) {
-				trace( target.progress, target.rawProgress )
+				console.log( target.progress, target.rawProgress )
 			}
 			function handleLoadFail( target ) {
-				trace( target );
+				console.log( target );
 			}
 			function handleAllComplete( target ) {
 				var a = target.getLoader( _imgLoader )
-				trace( "Loader found by var:", a )
+				console.log( "Loader found by var:", a )
 
 				var b = target.getContent( 'font1.ttf' );
-				trace( "Content found by name:", b );
+				console.log( "Content found by name:", b );
 
 				var c = target.getLoader( 'load_fonts' );
-				trace( "Loader found by url:", c );
+				console.log( "Loader found by url:", c );
 			}		
 		</codeblock>
 
@@ -213,7 +213,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		const L = this
 		L._active = true
 		if (L._total <= 0) {
-			trace('Loader "' + L.name + '" has NO assets to be loaded.')
+			console.log('Loader "' + L.name + '" has NO assets to be loaded.')
 		} 
 		else {
 			let _has = false
@@ -231,7 +231,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 					_output += '\n\t -> ' + (L._queue[l].prepend || '') + fileAndExtension
 				} 	
 			}
-			if (_has) trace(_output)
+			if (_has) console.log(_output)
 		}
 		
 		L._startSingleLoad(0)
@@ -251,14 +251,14 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 			function handleComplete( target ) {
 				var myContent = target.getAllContent();
-				trace( "Content found:", myContent );
+				console.log( "Content found:", myContent );
 			}
 	*/
 	getAllContent() {
 		let _found = []
 		function searchSubLoader(content) {
 			for (let i = 0; i < content.length; i++) {
-				//trace ( "   -> sub:", content[i] )
+				//console.log( "   -> sub:", content[i] )
 				if (content[i] instanceof Loader) {
 					searchSubLoader(content[i].content)
 				} 
@@ -270,7 +270,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 		searchSubLoader(this.content)
 
-		if (_found.length < 1) trace("No Content found")
+		if (_found.length < 1) console.log("No Content found")
 		
 		return _found
 	}
@@ -288,7 +288,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 			function handleComplete( target ) {
 				var myContent = target.getAllContentRaw();
-				trace( "Content found:", myContent );
+				console.log( "Content found:", myContent );
 			}
 	*/
 	getAllContentRaw() {
@@ -321,7 +321,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		let _found = null
 		function searchSubLoader(content) {
 			for (let i = 0; i < content.length; i++) {
-				//trace ( "   -> sub:", content[i] )
+				//console.log( "   -> sub:", content[i] )
 				if (content[i] instanceof Loader) {
 					if (content[i] && (content[i].name === id || content[i] === id)) {
 						_found = content[i]
@@ -335,7 +335,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 		searchSubLoader(this.content)
 
-		if (!_found) trace("No Loader found of that name")
+		if (!_found) console.log("No Loader found of that name")
 		
 		return _found;
 	}
@@ -343,13 +343,13 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 	/* ------------------------------------------------------------------------------------------------------------- */
 	// PRIVATE METHODS
 	_addSingleLoad(url, fbaOverwrite) {
-		// trace('_addSingleLoad()', url, fbaOverwrite)
+		// console.log('_addSingleLoad()', url, fbaOverwrite)
 		const L = this
 
 		// fbaOverwrite is an array [ file name, file extension ]
 		const fileType = fbaOverwrite ? fbaOverwrite[1] : (L.fileType || Utils.getFileType(url))	
 		let loaderType
-		// trace('\t fileType:', fileType)
+		// console.log('\t fileType:', fileType)
 
 		switch (fileType) {
 			case 'jpg' :
@@ -375,7 +375,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 		// either the data as binary OR the file path and name
 		const urlChoice = fbaOverwrite ? url : L.prepend + url
-		// trace('\t url:', url, '| loaderType:', loaderType)
+		// console.log('\t url:', url, '| loaderType:', loaderType)
 
 		var singleLoader = new loaderType(urlChoice, {
 			scope : L,
@@ -386,7 +386,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 			cacheBuster : L.cacheBuster,
 			crossOrigin : L.crossOrigin
 		})
-		// trace('\t singleLoader:', singleLoader)
+		// console.log('\t singleLoader:', singleLoader)
 		
 		// from fba, the files are binary, so there is
 		// no file name to reference so set it here
@@ -398,12 +398,12 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		
 		L._queue[L._total] = singleLoader
 		L._total++
-		// trace(L._total, L._queue)
+		// console.log(L._total, L._queue)
 	}
 
 	_addSubLoad(loader) {
 		const L = this
-		//trace(L.name, '_addSubLoad()')
+		//console.log(L.name, '_addSubLoad()')
 		loader.onComplete = L._handleSingleLoadComplete.bind(L)
 		loader.onProgress = L._handleProgress.bind(L)
 		loader.onFail = L._handleFail
@@ -414,7 +414,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 	}
 
 	_addFbaSubLoads(loader) {
-		// trace("_addFbaSubLoads()", loader)
+		// console.log("_addFbaSubLoads()", loader)
 	
 		// Conversion between uint8s and uint32s.
 		let uint8 = new Uint8Array(4)
@@ -424,7 +424,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		let idx = 44;
 
 		const chunkTotal = new Uint8Array(loader.dataRaw, idx, 1)[0]
-		//trace ( 'number of images as chunks:', chunkTotal )
+		//console.log( 'number of images as chunks:', chunkTotal )
 
 		// skip over rest of fbAc chunk: count value byte + CRC 4 bytes
 		idx += 5;
@@ -439,7 +439,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 			// also, the values must be set reversed, henced the count down loop
 			let up = 4;
 			for ( var k = 0; k < 4; k++ ){
-				//trace ( k, up, sizeOfChunk[k] )
+				//console.log( k, up, sizeOfChunk[k] )
 				uint8[--up] = sizeOfChunk[k]
 			}
 			
@@ -451,7 +451,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 			// Get the chunk type in ASCII, only last character really matters
 			let type = String.fromCharCode(new Uint8Array(loader.dataRaw, idx++, 1))			
 						
-			//trace ( '\ttype:', type, '\tlength:', length )
+			//console.log( '\ttype:', type, '\tlength:', length )
 			let fileNameLengthArray = new Uint8Array(loader.dataRaw, idx + 3, 1)
 			let fileNameLength = fileNameLengthArray[0] || 0; // default to zero incase array fails? maybe unnecessary
 						
@@ -475,7 +475,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 			let blob = new Blob([chunkData], { type:blobFileType })
 			let url = URL.createObjectURL(blob)
 			// url will be ~ blob:32c3c7af-ef04-414f-a073-685602fe8a28
-			//trace ( fileNameSplit, blobFileType, url )
+			//console.log( fileNameSplit, blobFileType, url )
 			this._addSingleLoad(url, fileNameSplit)
 		}
 	}
@@ -483,16 +483,16 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 	_startSingleLoad(i) {
 		const L = this
 		const _inst = L._queue[i];
-		// trace(L.name, '_startSingleLoad()', 'index:', i, 'total:', L._total)
+		// console.log(L.name, '_startSingleLoad()', 'index:', i, 'total:', L._total)
 		if (L._total == 0) {
 			// fire a complete because there are no requests
 			L._handleComplete();
 		} 
 		else {
 			if (i < L._total) {
-				// trace ( L.name, '_startSingleLoad() ->', _inst )
+				// console.log( L.name, '_startSingleLoad() ->', _inst )
 				if (!(_inst instanceof Loader)) {
-					//trace ( _inst.name, 'is a subloader' )
+					//console.log( _inst.name, 'is a subloader' )
 				//} else {
 					if (i < L._total - 1) {
 						L._startLoadTimeOut(++i)
@@ -514,7 +514,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 	// EVENT HANDLERS
 	_handleSingleLoadComplete(target) {
 		const L = this
-		// trace("_handleSingleLoadComplete(), target:", target)
+		// console.log("_handleSingleLoadComplete(), target:", target)
 		L.content[target.queueIndex] = target
 		delete L._queue[target.queueIndex]
 		
@@ -522,7 +522,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 		// is a nested Loader
 		if (target.url == undefined) {
-			//trace ( '"' + L.name + '" nested Loader "' + target.name + '" Complete' );
+			//console.log( '"' + L.name + '" nested Loader "' + target.name + '" Complete' );
 			if (target.queueIndex < L._total - 1) {
 				L._startLoadTimeOut(target.queueIndex + 1)
 			}
@@ -536,7 +536,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		for (let i = 0; i < _length; i++) {
 			if (L.content[i]) _count++
 		}	
-		// trace(L.name, '_handleProgress()', '_count:', _count, 'total:', L._total)
+		// console.log(L.name, '_handleProgress()', '_count:', _count, 'total:', L._total)
 
 		const _consecutive = _count
 		let _subProgress = 0
@@ -549,16 +549,16 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		L.rawProgress = _count / L._total + _subProgress
 
 		L.onProgress.call(L.scope, L)
-		//trace ( 'progress')
+		//console.log( 'progress')
 		if (_count >= L._total) {
-			//trace ( 'Loader calling _handleComplete()')
+			//console.log( 'Loader calling _handleComplete()')
 			L._handleComplete()
 		}
 	}
 
 	_handleComplete() {
 		const L = this
-		// trace('Loader "' + L.name + '" is Complete')
+		// console.log('Loader "' + L.name + '" is Complete')
 		L.onComplete.call(L.scope, L)
 	}
 }
