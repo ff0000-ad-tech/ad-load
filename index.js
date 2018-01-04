@@ -110,23 +110,17 @@
 	- ? comment out progress calculations
 */
 
-import {mix} from './lib/mixin/MixinBuilder.js'
-import {LoaderBase} from './lib/mixin/LoaderBase.js'
+import { mix } from './lib/mixin/MixinBuilder.js'
+import { LoaderBase } from './lib/mixin/LoaderBase.js'
 import * as Utils from './lib/mixin/LoaderUtils.js'
-import ImageLoader from './lib/single/ImageLoader.js' 
-import InlineLoader from './lib/single/InlineLoader.js' 
-import DataLoader from './lib/single/DataLoader.js' 
-import FontLoader from './lib/single/FontLoader.js' 
+import ImageLoader from './lib/single/ImageLoader.js'
+import InlineLoader from './lib/single/InlineLoader.js'
+import DataLoader from './lib/single/DataLoader.js'
+import FontLoader from './lib/single/FontLoader.js'
 
 class Blank {}
 
-export {
-	Utils as LoaderUtils,
-	ImageLoader,
-	InlineLoader,
-	DataLoader,
-	FontLoader,
-}
+export { Utils as LoaderUtils, ImageLoader, InlineLoader, DataLoader, FontLoader }
 
 export default class Loader extends mix(Blank).with(LoaderBase) {
 	constructor(...args) {
@@ -143,12 +137,12 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		L.prepend = arg.prepend || ''
 		L.platformGetUrl = arg.platformGetUrl
 		L.fileType = arg.fileType || null
-		L.content = [];
-		L.crossOrigin = arg.crossOrigin || undefined;
+		L.content = []
+		L.crossOrigin = arg.crossOrigin || undefined
 
-		L.add(arguments[0]);
+		L.add(arguments[0])
 	}
-	
+
 	/* ---------------------------------------------------------------------------------------------------------------- */
 	// PUBLIC
 
@@ -182,18 +176,15 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		if (typeof arg === 'string') {
 			// single load as first parameter
 			L._addSingleLoad(arg)
-		} 
-		else if (arg instanceof Array) {
+		} else if (arg instanceof Array) {
 			// first parameter is an Array of urls
-			for ( var i = 0; i < arg.length; i++ ){
+			for (var i = 0; i < arg.length; i++) {
 				L._addSingleLoad(arg[i])
 			}
-		} 
-		else if (arg instanceof Loader) {
+		} else if (arg instanceof Loader) {
 			if (arg.content && arg.content[0] && arg.content[0].fileType == 'fba') {
 				L._addFbaSubLoads(arg.content[0])
-			} 
-			else {
+			} else {
 				L._addSubLoad(arg)
 			}
 		}
@@ -214,8 +205,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		L._active = true
 		if (L._total <= 0) {
 			console.log('Loader "' + L.name + '" has NO assets to be loaded.')
-		} 
-		else {
+		} else {
 			let _has = false
 			let _output = ''
 			for (let l in L._queue) {
@@ -226,14 +216,14 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 					}
 					const fileName = L._queue[l].fileName
 					const extension = L._queue[l].fileType
-					const extensionIndex = fileName.indexOf( '.' + extension )
+					const extensionIndex = fileName.indexOf('.' + extension)
 					const fileAndExtension = extensionIndex > -1 ? fileName : fileName + '.' + extension
 					_output += '\n\t -> ' + (L._queue[l].prepend || '') + fileAndExtension
-				} 	
+				}
 			}
 			if (_has) console.log(_output)
 		}
-		
+
 		L._startSingleLoad(0)
 	}
 
@@ -261,17 +251,16 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 				//console.log( "   -> sub:", content[i] )
 				if (content[i] instanceof Loader) {
 					searchSubLoader(content[i].content)
-				} 
-				else {
+				} else {
 					_found.push(content[i])
-				} 
+				}
 			}
 		}
 
 		searchSubLoader(this.content)
 
-		if (_found.length < 1) console.log("No Content found")
-		
+		if (_found.length < 1) console.log('No Content found')
+
 		return _found
 	}
 
@@ -325,19 +314,18 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 				if (content[i] instanceof Loader) {
 					if (content[i] && (content[i].name === id || content[i] === id)) {
 						_found = content[i]
-					} 
-					else {
+					} else {
 						searchSubLoader(content[i].content)
 					}
-				} 
+				}
 			}
 		}
 
 		searchSubLoader(this.content)
 
-		if (!_found) console.log("No Loader found of that name")
-		
-		return _found;
+		if (!_found) console.log('No Loader found of that name')
+
+		return _found
 	}
 
 	/* ------------------------------------------------------------------------------------------------------------- */
@@ -347,29 +335,29 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		const L = this
 
 		// fbaOverwrite is an array [ file name, file extension ]
-		const fileType = fbaOverwrite ? fbaOverwrite[1] : (L.fileType || Utils.getFileType(url))	
+		const fileType = fbaOverwrite ? fbaOverwrite[1] : L.fileType || Utils.getFileType(url)
 		let loaderType
 		// console.log('\t fileType:', fileType)
 
 		switch (fileType) {
-			case 'jpg' :
-			case 'jpeg' :
-			case 'gif' :
-			case 'png' :
-			case 'svg' :
+			case 'jpg':
+			case 'jpeg':
+			case 'gif':
+			case 'png':
+			case 'svg':
 				loaderType = ImageLoader
-				break;
-			case 'ttf' :
-			case 'woff' :
-				loaderType = FontLoader;
-				break;
-			case 'json' :
-			case 'fba' :
-			case 'bin' :
-			case 'binary' :	
+				break
+			case 'ttf':
+			case 'woff':
+				loaderType = FontLoader
+				break
+			case 'json':
+			case 'fba':
+			case 'bin':
+			case 'binary':
 				loaderType = DataLoader
-				break;
-			default :
+				break
+			default:
 				loaderType = InlineLoader
 		}
 
@@ -378,24 +366,24 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		// console.log('\t url:', url, '| loaderType:', loaderType)
 
 		var singleLoader = new loaderType(urlChoice, {
-			scope : L,
-			platformGetUrl : L.platformGetUrl,
-			onComplete : L._handleSingleLoadComplete,
-			onFail : L._handleFail,
-			fileType : fileType,
-			cacheBuster : L.cacheBuster,
-			crossOrigin : L.crossOrigin
+			scope: L,
+			platformGetUrl: L.platformGetUrl,
+			onComplete: L._handleSingleLoadComplete,
+			onFail: L._handleFail,
+			fileType: fileType,
+			cacheBuster: L.cacheBuster,
+			crossOrigin: L.crossOrigin
 		})
 		// console.log('\t singleLoader:', singleLoader)
-		
+
 		// from fba, the files are binary, so there is
 		// no file name to reference so set it here
 		if (fbaOverwrite) {
 			singleLoader.fileName = fbaOverwrite[0]
 		}
-				
+
 		singleLoader.queueIndex = L._total
-		
+
 		L._queue[L._total] = singleLoader
 		L._total++
 		// console.log(L._total, L._queue)
@@ -410,51 +398,51 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		//loader.platformGetUrl = L.platformGetUrl;
 		loader.queueIndex = L._total
 		L._queue[L._total] = loader
-		L._total++;
+		L._total++
 	}
 
 	_addFbaSubLoads(loader) {
 		// console.log("_addFbaSubLoads()", loader)
-	
+
 		// Conversion between uint8s and uint32s.
 		let uint8 = new Uint8Array(4)
 		let uint32 = new Uint32Array(uint8.buffer)
 
-		// start after = signature(8 bytes) + IHDR(25 bytes) + fbAc(16 bytes total, but only 11: size,type,content-1 ) 
-		let idx = 44;
+		// start after = signature(8 bytes) + IHDR(25 bytes) + fbAc(16 bytes total, but only 11: size,type,content-1 )
+		let idx = 44
 
 		const chunkTotal = new Uint8Array(loader.dataRaw, idx, 1)[0]
 		//console.log( 'number of images as chunks:', chunkTotal )
 
 		// skip over rest of fbAc chunk: count value byte + CRC 4 bytes
-		idx += 5;
-		
+		idx += 5
+
 		for (let i = 0; i < chunkTotal; i++) {
 			// size, type, content, crc
 			// get the size of next chunk as on UintArray
-			let sizeOfChunk = new Uint8Array ( loader.dataRaw, idx, 4 )
+			let sizeOfChunk = new Uint8Array(loader.dataRaw, idx, 4)
 
 			// Read the length of the current chunk, which is stored as a Uint32.
 			// this one has to be a loop, as values get assigned to uint8, that changes buffer of uint32
 			// also, the values must be set reversed, henced the count down loop
-			let up = 4;
-			for ( var k = 0; k < 4; k++ ){
+			let up = 4
+			for (var k = 0; k < 4; k++) {
 				//console.log( k, up, sizeOfChunk[k] )
 				uint8[--up] = sizeOfChunk[k]
 			}
-			
+
 			// all chunk data NOT including the type
 			let length = uint32[0]
-			
+
 			idx += 7
 
 			// Get the chunk type in ASCII, only last character really matters
-			let type = String.fromCharCode(new Uint8Array(loader.dataRaw, idx++, 1))			
-						
+			let type = String.fromCharCode(new Uint8Array(loader.dataRaw, idx++, 1))
+
 			//console.log( '\ttype:', type, '\tlength:', length )
 			let fileNameLengthArray = new Uint8Array(loader.dataRaw, idx + 3, 1)
-			let fileNameLength = fileNameLengthArray[0] || 0; // default to zero incase array fails? maybe unnecessary
-						
+			let fileNameLength = fileNameLengthArray[0] || 0 // default to zero incase array fails? maybe unnecessary
+
 			let nameBuffer = new Uint8Array(loader.dataRaw, idx + 4, fileNameLength)
 			let fileName = String.fromCharCode.apply(String, nameBuffer)
 
@@ -468,11 +456,11 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 			// skip over the content AND skip over the CRC value by incrementing by 4 bytes
 			idx += length + 4
-			
+
 			let fileNameSplit = fileName.split('.')
 			//var blobFileType = '';// 'application/octet-stream';
-			let blobFileType = type == 'f' ? 'application/x-font-ttf' : 'image/' + (fileNameSplit[1] == 'svg' ? 'svg+xml' : fileNameSplit[1])	
-			let blob = new Blob([chunkData], { type:blobFileType })
+			let blobFileType = type == 'f' ? 'application/x-font-ttf' : 'image/' + (fileNameSplit[1] == 'svg' ? 'svg+xml' : fileNameSplit[1])
+			let blob = new Blob([chunkData], { type: blobFileType })
 			let url = URL.createObjectURL(blob)
 			// url will be ~ blob:32c3c7af-ef04-414f-a073-685602fe8a28
 			//console.log( fileNameSplit, blobFileType, url )
@@ -482,18 +470,17 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 	_startSingleLoad(i) {
 		const L = this
-		const _inst = L._queue[i];
+		const _inst = L._queue[i]
 		// console.log(L.name, '_startSingleLoad()', 'index:', i, 'total:', L._total)
 		if (L._total == 0) {
 			// fire a complete because there are no requests
-			L._handleComplete();
-		} 
-		else {
+			L._handleComplete()
+		} else {
 			if (i < L._total) {
 				// console.log( L.name, '_startSingleLoad() ->', _inst )
 				if (!(_inst instanceof Loader)) {
 					//console.log( _inst.name, 'is a subloader' )
-				//} else {
+					//} else {
 					if (i < L._total - 1) {
 						L._startLoadTimeOut(++i)
 					}
@@ -505,7 +492,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 	_startLoadTimeOut(i) {
 		const L = this
-		setTimeout( function(){
+		setTimeout(function() {
 			L._startSingleLoad(i)
 		}, 10)
 	}
@@ -517,7 +504,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		// console.log("_handleSingleLoadComplete(), target:", target)
 		L.content[target.queueIndex] = target
 		delete L._queue[target.queueIndex]
-		
+
 		L._handleProgress()
 
 		// is a nested Loader
@@ -535,15 +522,15 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		let _count = 0
 		for (let i = 0; i < _length; i++) {
 			if (L.content[i]) _count++
-		}	
+		}
 		// console.log(L.name, '_handleProgress()', '_count:', _count, 'total:', L._total)
 
 		const _consecutive = _count
 		let _subProgress = 0
-				
-		if (_count < L._total && L._queue[_count]) {			
+
+		if (_count < L._total && L._queue[_count]) {
 			_subProgress = L._queue[_count].progress / L._total || 0
-		}	
+		}
 
 		L.progress = _consecutive / L._total + _subProgress
 		L.rawProgress = _count / L._total + _subProgress
