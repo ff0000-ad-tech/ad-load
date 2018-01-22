@@ -27,7 +27,7 @@ module.exports = {
 	plugins: [
 		new UglifyJsPlugin({
 			uglifyOptions: {
-				drop_console: DM.deploy.get().output.logs ? false : true
+				drop_console: true
 			}
 		})
 	],
