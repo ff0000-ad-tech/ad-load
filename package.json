@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ff0000-ad-tech/ad-load.git"
+    "url": "latest"
   },
   "author": "RED Interactive Agency",
   "license": "MIT",
