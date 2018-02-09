@@ -1,18 +1,21 @@
 {
-  "name": "ad-load",
+  "name": "@ff0000-ad-tech/ad-load",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "version": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pub": "np"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ff0000-ad-tech/ad-load.git"
   },
   "author": "RED Interactive Agency",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -26,6 +29,7 @@
     "eslint": "^4.16.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.5.0",
+    "np": "^2.19.0",
     "prettier": "^1.10.2"
   }
 }
