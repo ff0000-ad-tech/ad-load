@@ -358,6 +358,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 			case 'fba':
 			case 'bin':
 			case 'binary':
+			case 'svg+xml':
 				loaderType = DataLoader
 				break
 			default:
