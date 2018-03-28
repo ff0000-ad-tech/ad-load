@@ -21,7 +21,7 @@
 	@property {string} fileType
 		Manually assign the file type, eg: <code>jpg</code>, <code>svg</code>.
 	@desc
-		<a href="https://github.com/ff0000-ad-tech/ad-load">Github repo</a>
+		Import from <a href="https://github.com/ff0000-ad-tech/ad-load">ad-load</a>
 		<br><br>
 
 		This class is designed to handle all load processes: images, fonts and data, even other Loaders! Below are multiple use case scenarios.
