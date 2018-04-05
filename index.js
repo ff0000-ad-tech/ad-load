@@ -1,4 +1,5 @@
 /** 
+	@npmpackage
 	@class Loader
 	@param {string|array|Loader} arg
 		load target
