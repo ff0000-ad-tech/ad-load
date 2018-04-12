@@ -497,7 +497,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 	_startLoadTimeOut(i) {
 		const L = this
-		setTimeout(function() {
+		setTimeout(() => {
 			L._startSingleLoad(i)
 		}, 10)
 	}
