@@ -40,7 +40,7 @@ module.exports = {
 					return isAdLoadIndex
 				},
 				use: [{
-					loader: 'webpack-rollup-babel-loader',
+					loader: '@ff0000-ad-tech/webpack-rollup-babel-loader',
 					options: {
 						babelOptions: {
 							presets: babelOptions.presets,
