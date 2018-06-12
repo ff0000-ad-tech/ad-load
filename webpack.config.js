@@ -24,6 +24,9 @@ module.exports = {
 		library: 'adLoad',
 		libraryTarget: 'umd'
 	},
+	externals: {
+		'ad-global': 'ad-global'
+	},
 	// copy UglifySettings
 	plugins: [
 		new UglifyJsPlugin({
