@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,9 @@
   },
   "author": "RED Interactive Agency",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@ff0000-ad-tech/ad-global": "latest"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
