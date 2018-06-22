@@ -25,7 +25,7 @@ module.exports = {
 		libraryTarget: 'umd'
 	},
 	externals: {
-		'ad-global': 'ad-global'
+		'ad-global': 'adGlobal'
 	},
 	// copy UglifySettings
 	plugins: [
@@ -49,7 +49,12 @@ module.exports = {
 						options: {
 							babelOptions: {
 								presets: babelOptions.presets
-							}
+							},
+							globals: {
+								'ad-global': 'adGlobal'
+							},
+							// here, list package names for Rollup to assume have already been loaded externally
+							external: ['ad-global']
 						}
 					}
 				]
