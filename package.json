@@ -1,35 +1,38 @@
 {
-  "name": "@ff0000-ad-tech/ad-load",
-  "publishConfig": {
-    "access": "public"
-  },
-  "version": "1.0.10",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "version": "webpack",
-    "pub": "np"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ff0000-ad-tech/ad-load.git"
-  },
-  "author": "RED Interactive Agency",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.16.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-prettier": "^2.5.0",
-    "np": "^2.19.0",
-    "prettier": "^1.10.2",
-    "rollup": "^0.54.1",
-    "webpack": "^3.10.0",
-    "@ff0000-ad-tech/webpack-rollup-babel-loader": "latest"
-  }
+	"name": "@ff0000-ad-tech/ad-load",
+	"publishConfig": {
+		"access": "public"
+	},
+	"version": "1.2.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"version": "webpack",
+		"pub": "np",
+		"dist": "npx webpack --config webpack.config.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ff0000-ad-tech/ad-load.git"
+	},
+	"author": "RED Interactive Agency",
+	"license": "MIT",
+	"dependencies": {
+		"@ff0000-ad-tech/ad-global": "latest"
+	},
+	"devDependencies": {
+		"babel-core": "^6.26.0",
+		"babel-eslint": "^8.2.2",
+		"babel-loader": "^7.1.2",
+		"babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-preset-env": "^1.6.1",
+		"eslint": "^4.16.0",
+		"eslint-config-prettier": "^2.9.0",
+		"eslint-plugin-prettier": "^2.5.0",
+		"np": "^2.19.0",
+		"prettier": "^1.10.2",
+		"rollup": "^0.54.1",
+		"webpack": "^3.10.0",
+		"@ff0000-ad-tech/webpack-rollup-babel-loader": "latest"
+	}
 }
