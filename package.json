@@ -34,5 +34,8 @@
 		"rollup": "^0.54.1",
 		"webpack": "^3.10.0",
 		"@ff0000-ad-tech/webpack-rollup-babel-loader": "latest"
-	}
+	},
+	"files": [
+		"./dist/umd.min.js"
+	]
 }
