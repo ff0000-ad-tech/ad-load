@@ -25,6 +25,7 @@ module.exports = {
 		libraryTarget: 'umd'
 	},
 	externals: {
+		// point to window as that is where those methods will exist
 		'ad-global': 'window'
 	},
 	// copy UglifySettings
