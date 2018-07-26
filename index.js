@@ -225,7 +225,9 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 					_output += '\n\t -> ' + (L._queue[l].prepend || '') + fileAndExtension
 				}
 			}
-			if (_has) console.log(_output)
+			if (_has) {
+				console.log(_output)
+			}
 		}
 
 		L._startSingleLoad(0)
@@ -263,7 +265,9 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 		searchSubLoader(this.content)
 
-		if (_found.length < 1) console.log('No Content found')
+		if (_found.length < 1) {
+			console.log('No Content found')
+		}
 
 		return _found
 	}
@@ -327,7 +331,9 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 
 		searchSubLoader(this.content)
 
-		if (!_found) console.log('No Loader found of that name')
+		if (!_found) {
+			console.log('No Loader found of that name')
+		}
 
 		return _found
 	}

@@ -12,7 +12,8 @@ const babelOptions = {
 		]
 	],
 	"plugins": [
-		"transform-class-properties"
+		"transform-class-properties",
+		"transform-remove-console"
 	]
 }
 
@@ -32,7 +33,9 @@ module.exports = {
 	plugins: [
 		new UglifyJsPlugin({
 			uglifyOptions: {
-				drop_console: true
+				compress: {
+					drop_console: true
+				}
 			}
 		})
 	],
