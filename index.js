@@ -1,113 +1,103 @@
-/** 
-	@npmpackage
-	@class Loader
-	@param {string|array|Loader} arg
-		load target
-	@param {object} arg
-		Object with any of the following optional parameters for customizing the load routine.
-	@property {string} query
-	@property {string} name
-	@property {boolean} prioritize
-	@property {boolean} cacheBuster
-	@property {string} method 
-		"POST" or "GET"
-	@property {object} scope
-	@property {function} onComplete
-	@property {function} onProgress
-	@property {function} onFail
-	@property {string} prepend
-		A file path to be added to all loader targets.
-	@property {function} platformGetUrl
-		A callback method to wrap the url, such as DoubleClick's <code>Enabler.getUrl</code>.
-	@property {string} fileType
-		Manually assign the file type, eg: <code>jpg</code>, <code>svg</code>.
-	@desc
-		Import from <a href="https://github.com/ff0000-ad-tech/ad-load">ad-load</a>
-		<br><br>
-
-		This class is designed to handle all load processes: images, fonts and data, even other Loaders! Below are multiple use case scenarios.
-		<br><br>
-
-
-		<b>Single Load:</b>
-		<codeblock>
-			var singleLoader = new Loader('images/img0.jpg', { onComplete:handleLoadComplete, scope:this });
-			singleLoader.load();
-
-			function handleLoadComplete( target ) {
-				console.log( target.content[0].dataRaw );
-			}
-		</codeblock>
-		<br><br>
-
-
-		<b>Array of loads from one Constructor:</b>
-		<codeblock>
-			// Array load - you can pass in multiple files on creation of a Loader
-			var arrayLoader = new Loader(['font1.ttf', 'font2.ttf'], { name:'fontLoader', onComplete:handleLoadComplete, prepend:adParams.commonPath + 'fonts/' });
-			arrayLoader.load();
-
-			function handleLoadComplete( target ) {
-				console.log( target.content[0].dataRaw );
-			}		
-		</codeblock>
-		<br><br>
-		
-
-		<b>Complex Load:</b>
-		<codeblock>
-			var myLoader = new Loader('images/img0.jpg', { onComplete:handleLoadComplete, scope:this });	
-
-			// append to that loader
-			myLoader.add('images/img1.jpg');
-
-			// append multiple
-			myLoader.add(['images/img2.jpg', 'images/img3.jpg']);
-			myLoader.load();
-
-			function handleLoadComplete( target ) {
-				console.log( target.content[0].dataRaw );
-			}		
-		</codeblock>
-		<br><br>
-
-
-		<b>Nested Loads:</b>
-		<codeblock>
-			// Nested loads - best practice is to make a loader for one file type
-			var masterLoader = new Loader({ name:'master', onComplete:handleAllComplete, onProgress:handleAllProgress, onFail:handleLoadFail, scope:this });
-
-			// declare a var to reference later, then add it to main loader
-			var _imgLoader = new Loader( [ 'images/img2.jpg', 'images/img3.jpg' ], { name:'load_images', prepend:'images/' });
-			masterLoader.add( _imgLoader );
-
-			// or just add a new loader instance
-			masterLoader.add( new Loader( [ 'font1.ttf', 'font2.ttf' ], { name:'load_fonts', prepend:adParams.commonPath + 'fonts/' }) );
-			masterLoader.add( new Loader( ['Ad_Data.js', 'NetUtils.js', 'Align.js', 'Analytics.js'], { name:'load_js', prepend:adParams.corePath + 'utils/' }) );
-			masterLoader.load();
-
-			function handleLoadComplete( target ) {
-				console.log( target.content[0].dataRaw );
-			}
-			function handleLoadProgress( target ) {
-				console.log( target.progress, target.rawProgress )
-			}
-			function handleLoadFail( target ) {
-				console.log( target );
-			}
-			function handleAllComplete( target ) {
-				var a = target.getLoader( _imgLoader )
-				console.log( "Loader found by var:", a )
-
-				var b = target.getContent( 'font1.ttf' );
-				console.log( "Content found by name:", b );
-
-				var c = target.getLoader( 'load_fonts' );
-				console.log( "Loader found by url:", c );
-			}		
-		</codeblock>
-
-*/
+/**
+ * @class Loader
+ * @param {string|array|Loader} target
+ * 	load target
+ * @param {object} arg
+ * 	Object with any of the following optional parameters for customizing the load routine.
+ * @property {string} name
+ * @property {boolean} prioritize
+ * @property {boolean} cacheBuster
+ * @property {object} scope
+ * @property {function} onComplete
+ * @property {function} onProgress
+ * @property {function} onFail
+ * @property {string} prepend
+ * 	A file path to be added to all loader targets.
+ * @property {function} platformGetUrl
+ * 	A callback method to wrap the url, such as DoubleClick's <code>Enabler.getUrl</code>.
+ * @property {string} fileType
+ * 	Manually assign the file type, eg: <code>jpg</code>, <code>svg</code>.
+ * @desc
+ * This class is designed to handle all load processes: images, fonts and data, even other Loaders! Below are multiple use case scenarios.
+ * <br><br>
+ * <b>Single Load:</b>
+ * <codeblock>
+ * import { Loader } from 'ad-load'
+ *
+ * var singleLoader = new Loader('images/img0.jpg', { onComplete:handleLoadComplete, scope:this })
+ * singleLoader.load()
+ *
+ * function handleLoadComplete(target) {
+ * 	console.log(target.content[0].dataRaw)
+ * }
+ * </codeblock>
+ * <br><br>
+ * <b>Array of loads from one Constructor:</b>
+ * <codeblock>
+ * // Array load - you can pass in multiple files on creation of a Loader
+ * var arrayLoader = new Loader(['font1.ttf', 'font2.ttf'], { name:'fontLoader', onComplete:handleLoadComplete, prepend:adParams.commonPath + 'fonts/' })
+ * arrayLoader.load()
+ *
+ * function handleLoadComplete(target) {
+ * 	console.log(target.content[0].dataRaw)
+ * }
+ * </codeblock>
+ * <br><br>
+ * <b>Complex Load:</b>
+ * <codeblock>
+ * var myLoader = new Loader('images/img0.jpg', { onComplete:handleLoadComplete, scope:this })
+ *
+ * // append to that loader
+ * myLoader.add('images/img1.jpg')
+ *
+ * // append multiple
+ * myLoader.add(['images/img2.jpg', 'images/img3.jpg'])
+ * myLoader.load()
+ *
+ * function handleLoadComplete(target) {
+ * 	console.log( target.content[0].dataRaw )
+ * }
+ * </codeblock>
+ * <br><br>
+ * <b>Nested Loads:</b>
+ * <codeblock>
+ * // Nested loads - best practice is to make a loader for one file type
+ * var masterLoader = new Loader({ name:'master', onComplete:handleAllComplete, onProgress:handleAllProgress, onFail:handleLoadFail, scope:this })
+ *
+ * // declare a var to reference later, then add it to main loader
+ * var _imgLoader = new Loader(['images/img2.jpg', 'images/img3.jpg'], { name:'load_images', prepend:'images/' })
+ * masterLoader.add(_imgLoader)
+ *
+ * // or just add a new loader instance
+ * masterLoader.add(
+ * 	new Loader(['font1.ttf', 'font2.ttf' ], { name:'load_fonts', prepend: 'fonts/' })
+ * )
+ * masterLoader.add(
+ * 	new Loader(['AdData.js', 'Align.js', 'Clamp.js'], { name:'load_js', prepend: 'utils/' })
+ * )
+ * masterLoader.load()
+ *
+ * function handleLoadComplete(target) {
+ * 	console.log(target.content[0].dataRaw)
+ * }
+ * function handleLoadProgress(target) {
+ * 	console.log(target.progress, target.rawProgress)
+ * }
+ * function handleLoadFail(target) {
+ * 	console.log(target);
+ * }
+ * function handleAllComplete(target) {
+ * 	var a = target.getLoader(_imgLoader)
+ * 	console.log("Loader found by var:", a)
+ *
+ * 	var b = target.getContent('font1.ttf')
+ * 	console.log("Content found by name:", b)
+ *
+ * 	var c = target.getLoader('load_fonts')
+ * 	console.log("Loader found by url:", c)
+ * }
+ * </codeblock>
+ */
 
 /* TODO
 	- change getAllContent() to take secret boolean so can call getAllContentRaw(true) for no extra loop
@@ -151,30 +141,30 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 	// PUBLIC
 
 	/**
-		@memberOf Loader
-		@method add
-		@param {string|array|Loader} arg
-			a file, array of files, or Loader instance
-		@desc
-			Add to the load queue: a single or array of files or even another Loader.
-		@example
-			// Single load
-			var imgLoader = new Loader({ name:'img_loader' });
-			
-			// add to that loader
-			imgLoader.add('images/img1.jpg');
-			
-			// add multiple
-			imgLoader.add(['images/img2.jpg', 'images/img3.jpg']);
-		
-			// Nested loads - best practice is to make a loader for one file type
-			var mainLoader = new Loader({ name:'main', onComplete:handleComplete });
-
-			mainLoader.add( imgLoader );
-			
-			// or just add a new loader instance
-			mainLoader.add( new Loader(['font1.ttf', 'font2.ttf'], { name:'load_fonts' }) );				
-	*/
+	 * @memberOf Loader
+	 * @method add
+	 * @param {string|array|Loader} arg
+	 * 	a file, array of files, or Loader instance
+	 * @desc
+	 * 	Add to the load queue: a single or array of files or even another Loader.
+	 * @example
+	 * // Single load
+	 * var imgLoader = new Loader({ name:'img_loader' })
+	 *
+	 * // add to that loader
+	 * imgLoader.add('images/img1.jpg')
+	 *
+	 * // add multiple
+	 * imgLoader.add(['images/img2.jpg', 'images/img3.jpg'])
+	 *
+	 * // Nested loads - best practice is to make a loader for one file type
+	 * var mainLoader = new Loader({ name:'main', onComplete:handleComplete })
+	 *
+	 * mainLoader.add(imgLoader)
+	 *
+	 * // or just add a new loader instance
+	 * mainLoader.add(new Loader(['font1.ttf', 'font2.ttf'], { name:'load_fonts' }))
+	 */
 	add(arg) {
 		const L = this
 		if (typeof arg === 'string') {
@@ -195,15 +185,15 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 	}
 
 	/**
-		@memberOf Loader
-		@method load
-		@desc
-			Starts the load process.
-		@example
-			// Single load
-			var imgLoader = new Loader({ onComplete:handleComplete });
-			imgLoader.load();				
-	*/
+	 * @memberOf Loader
+	 * @method load
+	 * @desc
+	 * 	Starts the load process.
+	 * @example
+	 * // Single load
+	 * var imgLoader = new Loader({ onComplete:handleComplete })
+	 * imgLoader.load()
+	 */
 	load() {
 		const L = this
 		L._active = true
@@ -233,23 +223,23 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		L._startSingleLoad(0)
 	}
 
-	/**	
-		@memberOf Loader
-		@method getAllContent
-		@returns {array}
-			An array of LoaderData Objects with relevant loading information (like an Event Object).  
-			Access the loaded content via the property 'dataRaw': an image, raw Json, raw XML, or font name
-		@desc
-			Get all loaded content from the Loader and all nested Loaders
-		@example
-			var myLoader = new Loader(['img1.jpg', 'img2.jpg', 'img3.jpg'], { onComplete:handleComplete });
-			myLoader.load();
-
-			function handleComplete( target ) {
-				var myContent = target.getAllContent();
-				console.log( "Content found:", myContent );
-			}
-	*/
+	/**
+	 * @memberOf Loader
+	 * @method getAllContent
+	 * @returns {array}
+	 * 	An array of LoaderData Objects with relevant loading information (like an Event Object).
+	 * 	Access the loaded content via the property 'dataRaw': an image, raw Json, raw XML, or font name
+	 * @desc
+	 * 	Get all loaded content from the Loader and all nested Loaders
+	 * @example
+	 *  var myLoader = new Loader(['img1.jpg', 'img2.jpg', 'img3.jpg'], { onComplete:handleComplete })
+	 *  myLoader.load()
+	 *
+	 *  function handleComplete(target) {
+	 *  	var myContent = target.getAllContent()
+	 *  	console.log("Content found:", myContent)
+	 *  }
+	 */
 	getAllContent() {
 		let _found = []
 		function searchSubLoader(content) {
@@ -272,22 +262,22 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		return _found
 	}
 
-	/**	
-		@memberOf Loader
-		@method getAllContentRaw
-		@returns {array}
-			An array of only the raw data: an image, raw Json, raw XML, or font name
-		@desc
-			Get all raw loaded content from the Loader and all nested Loaders, no LoaderData Objects
-		@example
-			var myLoader = new Loader(['img1.jpg', 'img2.jpg', 'img3.jpg'], { onComplete:handleComplete });
-			myLoader.load();
-
-			function handleComplete( target ) {
-				var myContent = target.getAllContentRaw();
-				console.log( "Content found:", myContent );
-			}
-	*/
+	/**
+	 * @memberOf Loader
+	 * @method getAllContentRaw
+	 * @returns {array}
+	 * 	An array of only the raw data: an image, raw Json, raw XML, or font name
+	 * @desc
+	 * 	Get all raw loaded content from the Loader and all nested Loaders, no LoaderData Objects
+	 * @example
+	 * var myLoader = new Loader(['img1.jpg', 'img2.jpg', 'img3.jpg'], { onComplete:handleComplete })
+	 * myLoader.load()
+	 *
+	 * function handleComplete(target) {
+	 * 	var myContent = target.getAllContentRaw()
+	 * 	console.log("Content found:", myContent)
+	 * }
+	 */
 	getAllContentRaw() {
 		let _content = this.getAllContent()
 		for (let i = 0; i < _content.length; i++) {
@@ -296,24 +286,29 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		return _content
 	}
 
-	/**	
-		@memberOf Loader
-		@method getLoader
-		@param {string} id
-			the string optionally assigned to the 'name' property or the variable assigned to the Loader instance
-		@returns {Loader}
-		@desc
-			Get the Loader instance from the Loader or any nested Loader
-		@example
-			var mainLoader = new Loader({ name:'main', onComplete:handleLoadComplete });
-			mainLoader.add( new Loader( [ 'font1.ttf', 'font2.ttf' ], { name:'load_fonts', prepend:adParams.commonPath + 'fonts/' }) );
-			mainLoader.add( new Loader( ['Ad_Data.js', 'NetUtils.js'], { name:'load_js', prepend:adParams.corePath + 'utils/' }) );
-			mainLoader.load();
-
-			function handleLoadComplete( target ) {
-				var fontLoader = target.getLoader('load_fonts');
-			}
-	*/
+	/**
+	 * @memberOf Loader
+	 * @method getLoader
+	 * @param {string} id
+	 * 	the string optionally assigned to the 'name' property or the variable assigned to the Loader instance
+	 * @returns {Loader}
+	 * @desc
+	 * 	Get the Loader instance from the Loader or any nested Loader
+	 * @example
+	 * var mainLoader = new Loader({ name:'main', onComplete:handleLoadComplete })
+	 * mainLoader.add(
+	 * 	new Loader(['font1.ttf', 'font2.ttf'], { name: 'load_fonts', prepend: 'fonts/' }
+	 * 	)
+	 * )
+	 * mainLoader.add(
+	 * 	new Loader(['Ad_Data.js', 'NetUtils.js'], { name: 'load_js', prepend: 'utils/' })
+	 * )
+	 * mainLoader.load()
+	 *
+	 * function handleLoadComplete(target) {
+	 * 	var fontLoader = target.getLoader('load_fonts')
+	 * }
+	 */
 	getLoader(id) {
 		let _found = null
 		function searchSubLoader(content) {
@@ -338,7 +333,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		return _found
 	}
 
-	/* ------------------------------------------------------------------------------------------------------------- */
+	// -------------------------------------------------------------------------------------------------------------
 	// PRIVATE METHODS
 	_addSingleLoad(url, fbaOverwrite) {
 		// console.log('_addSingleLoad()', url, fbaOverwrite)
@@ -513,7 +508,7 @@ export default class Loader extends mix(Blank).with(LoaderBase) {
 		}, 10)
 	}
 
-	/* ------------------------------------------------------------------------------------------------------------- */
+	// -------------------------------------------------------------------------------------------------------------
 	// EVENT HANDLERS
 	_handleSingleLoadComplete(target) {
 		const L = this
