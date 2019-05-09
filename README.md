@@ -11,5 +11,36 @@
 
 # Load
 
+* * *
 
+## API
 
+## <a name="Loader" href="./docs/Loader.md">Loader</a>
+* new Loader(target, arg)
+* <a href="./docs/Loader.md#Loader.add">.add(arg)</a>
+* <a href="./docs/Loader.md#Loader.load">.load()</a>
+* <a href="./docs/Loader.md#Loader.getAllContent">.getAllContent()</a> ⇒ <code>array</code>
+* <a href="./docs/Loader.md#Loader.getAllContentRaw">.getAllContentRaw()</a> ⇒ <code>array</code>
+* <a href="./docs/Loader.md#Loader.getLoader">.getLoader(id)</a> ⇒ <code>Loader</code>
+## <a name="LoaderUtils" href="./docs/LoaderUtils.md">LoaderUtils</a>
+* <a href="./docs/LoaderUtils.md#LoaderUtils.createXMLHttpRequest">.createXMLHttpRequest()</a> ⇒ <code>XMLHttpRequest</code>
+* <a href="./docs/LoaderUtils.md#LoaderUtils.getFileName">.getFileName(url)</a> ⇒ <code>string</code>
+* <a href="./docs/LoaderUtils.md#LoaderUtils.getFontName">.getFontName(url)</a> ⇒ <code>string</code>
+* <a href="./docs/LoaderUtils.md#LoaderUtils.getFileType">.getFileType(url)</a> ⇒ <code>string</code>
+* <a href="./docs/LoaderUtils.md#LoaderUtils.getFullUrl">.getFullUrl(prepend, file, platformGetUrl)</a> ⇒ <code>string</code>
+* <a href="./docs/LoaderUtils.md#LoaderUtils.getUrlPrepend">.getUrlPrepend(path)</a> ⇒ <code>string</code>
+* <a href="./docs/LoaderUtils.md#LoaderUtils.getParamsFromData">.getParamsFromData(query)</a> ⇒ <code>string</code>
+## <a name="DataLoader" href="./docs/DataLoader.md">DataLoader</a>
+* new DataLoader(target, arg)
+* <a href="./docs/DataLoader.md#DataLoader.load">.load()</a>
+## <a name="FontLoader" href="./docs/FontLoader.md">FontLoader</a>
+* new FontLoader(target, arg)
+* <a href="./docs/FontLoader.md#FontLoader.load">.load()</a>
+## <a name="ImageLoader" href="./docs/ImageLoader.md">ImageLoader</a>
+* new ImageLoader(target, arg)
+* <a href="./docs/ImageLoader.md#ImageLoader.load">.load()</a>
+## <a name="InlineLoader" href="./docs/InlineLoader.md">InlineLoader</a>
+* new InlineLoader(target, arg)
+* <a href="./docs/InlineLoader.md#InlineLoader.load">.load()</a>
+
+* * *

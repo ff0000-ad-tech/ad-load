@@ -9,7 +9,8 @@
 	"scripts": {
 		"version": "webpack",
 		"pub": "np",
-		"dist": "npx webpack --config webpack.config.js"
+		"dist": "npx webpack --config webpack.config.js",
+		"docs": "node md/docs_to_md.js"
 	},
 	"engines": {
 		"node": ">=9.8.0",
@@ -38,6 +39,9 @@
 		"np": "^2.19.0",
 		"prettier": "^1.10.2",
 		"rollup": "^0.54.1",
-		"webpack": "^3.10.0"
+		"webpack": "^3.10.0",
+		"@ff0000-ad-tech/fat-jsdoc-to-md": "git+https://github.com/ff0000-ad-tech/fat-jsdoc-to-md.git",
+		"jsdoc": "git+https://github.com/ff0000-ad-tech/jsdoc.git",
+		"jsdoc-to-markdown": "^4.0.1"
 	}
 }
