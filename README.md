@@ -9,11 +9,14 @@
 [![npm license](https://img.shields.io/npm/l/@ff0000-ad-tech%2Fad-load.svg?style=flat-square)](https://github.com/ff0000-ad-tech/ad-load/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-# Load
-
 * * *
 
+# ad-load
+
+A package to handle all loading types and formats
+
 ## API
+
 
 ## <a name="Loader" href="./docs/Loader.md">Loader</a>
 * new Loader(target, arg)
@@ -42,5 +45,6 @@
 ## <a name="InlineLoader" href="./docs/InlineLoader.md">InlineLoader</a>
 * new InlineLoader(target, arg)
 * <a href="./docs/InlineLoader.md#InlineLoader.load">.load()</a>
+
 
 * * *
