@@ -17,7 +17,6 @@ A package to handle all loading types and formats
 
 ## API
 
-
 ## <a name="Loader" href="./docs/Loader.md">Loader</a>
 * new Loader(target, arg)
 * <a href="./docs/Loader.md#Loader.add">.add(arg)</a>
