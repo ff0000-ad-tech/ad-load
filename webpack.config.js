@@ -1,23 +1,7 @@
 const path = require("path");
 const UglifyJsPlugin = require("webpack").optimize.UglifyJsPlugin;
 
-// prettier-ignore
-const babelOptions = {
-	"presets": [
-		[
-			"@babel/preset-env",
-			{
-				"loose": true,
-			}
-		]
-	],
-	"plugins": [
-		"@babel/plugin-proposal-class-properties",
-		"transform-remove-console"
-	]
-}
-
-const getConfig = (override = {}) =>
+const getConfig = (override = {}, babelOptions) =>
   Object.assign(
     {
       entry: path.resolve(__dirname, "index.js"),
@@ -75,30 +59,59 @@ const getConfig = (override = {}) =>
 
 module.exports = [
   // production
-  getConfig({
-    output: {
-      path: path.resolve(__dirname, "dist"),
-      filename: "umd.min.js",
-      library: "adLoad",
-      libraryTarget: "umd"
-    },
-    plugins: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          compress: {
-            drop_console: true
+  getConfig(
+    {
+      output: {
+        path: path.resolve(__dirname, "dist"),
+        filename: "umd.min.js",
+        library: "adLoad",
+        libraryTarget: "umd"
+      },
+      plugins: [
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              drop_console: true
+            }
           }
-        }
-      })
-    ]
-  }),
-  // debug
-  getConfig({
-    output: {
-      path: path.resolve(__dirname, "dist"),
-      filename: "umd.debug.js",
-      library: "adLoad",
-      libraryTarget: "umd"
+        })
+      ]
+    },
+    {
+      presets: [
+        [
+          "@babel/preset-env",
+          {
+            loose: true
+          }
+        ]
+      ],
+      plugins: [
+        "@babel/plugin-proposal-class-properties",
+        "transform-remove-console"
+      ]
     }
-  })
+  ),
+  // debug
+  getConfig(
+    {
+      output: {
+        path: path.resolve(__dirname, "dist"),
+        filename: "umd.debug.js",
+        library: "adLoad",
+        libraryTarget: "umd"
+      }
+    },
+    {
+      presets: [
+        [
+          "@babel/preset-env",
+          {
+            loose: true
+          }
+        ]
+      ],
+      plugins: ["@babel/plugin-proposal-class-properties"]
+    }
+  )
 ];
