@@ -155,6 +155,7 @@ var LoaderBase = function LoaderBase(superclass) {
         if (!L._failCalled) {
           L._failCalled = true;
           L.onFail.call(L.scope, L);
+          console.log('Loader "' + L.name + '" Fail:', L.url);
         }
       };
 
@@ -186,6 +187,7 @@ function createXMLHttpRequest() {
     return new ActiveXObject("Msxml2.XMLHTTP");
   } catch (e) {}
 
+  console.warn("XMLHttpRequest not supported");
   return null;
 }
 /**
@@ -303,6 +305,7 @@ function getParamsFromData(query) {
     var queryString = "";
 
     for (var prop in query) {
+      console.log("      prop =", prop);
       queryString += prop + "=" + query[prop] + "&";
     }
 
@@ -1048,7 +1051,9 @@ function (_mix$with5) {
     var L = this;
     L._active = true;
 
-    if (L._total <= 0) {} else {
+    if (L._total <= 0) {
+      console.log('Loader "' + L.name + '" has NO assets to be loaded.');
+    } else {
       var _has = false;
       var _output = '';
 
@@ -1065,6 +1070,10 @@ function (_mix$with5) {
           var fileAndExtension = extensionIndex > -1 ? fileName : fileName + '.' + extension;
           _output += '\n\t -> ' + (L._queue[l].prepend || '') + fileAndExtension;
         }
+      }
+
+      if (_has) {
+        console.log(_output);
       }
     }
 
@@ -1104,6 +1113,11 @@ function (_mix$with5) {
     }
 
     searchSubLoader(this.content);
+
+    if (_found.length < 1) {
+      console.log('No Content found');
+    }
+
     return _found;
   }
   /**
@@ -1175,6 +1189,11 @@ function (_mix$with5) {
     }
 
     searchSubLoader(this.content);
+
+    if (!_found) {
+      console.log('No Loader found of that name');
+    }
+
     return _found;
   } // -------------------------------------------------------------------------------------------------------------
   // PRIVATE METHODS
