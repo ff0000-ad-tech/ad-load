@@ -81,6 +81,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 exports.__esModule = true;
+exports.setTicker = setTicker;
 exports["default"] = exports.FontLoader = exports.DataLoader = exports.InlineLoader = exports.ImageLoader = exports.LoaderUtils = void 0;
 
 var _adGlobal = __webpack_require__(1);
@@ -377,27 +378,14 @@ var LoaderTicker = function LoaderTicker(superclass) {
 
       _proto3._setTicker = function _setTicker(args) {
         var L = this;
-        var node = document.createElement('div');
-        node.innerHTML = args.content;
-        node.style.cssText = args.css || '';
-        document.body.appendChild(node);
-        var width = args.width != undefined ? args.width : node.offsetWidth;
-        node.style.fontFamily = args.font || '';
-
-        var _timeOut = setTimeout(function () {
-          clearInterval(_interval);
-
-          L._handleFail();
-        }, 5000);
-
-        var _interval = setInterval(function () {
-          if (node.offsetWidth != width) {
-            clearTimeout(_timeOut);
-            clearInterval(_interval);
-
-            L._handleTickerComplete(node);
-          }
-        }, 10);
+        setTicker({
+          content: args.content,
+          css: args.css,
+          width: args.width,
+          font: args.font,
+          handleFail: L._handleFail.bind(L),
+          handleTickerComplete: L._handleTickerComplete.bind(L)
+        });
       };
 
       _proto3._removeTickerNode = function _removeTickerNode(node) {
@@ -408,6 +396,38 @@ var LoaderTicker = function LoaderTicker(superclass) {
     }(superclass)
   );
 };
+
+function setTicker(_temp) {
+  var _ref = _temp === void 0 ? {} : _temp,
+      content = _ref.content,
+      css = _ref.css,
+      width = _ref.width,
+      font = _ref.font,
+      handleFail = _ref.handleFail,
+      handleTickerComplete = _ref.handleTickerComplete;
+
+  var node = document.createElement('div');
+  node.innerHTML = content;
+  node.style.cssText = css || '';
+  document.body.appendChild(node);
+
+  var _width = width != undefined ? width : node.offsetWidth;
+
+  node.style.fontFamily = font || '';
+
+  var _timeOut = setTimeout(function () {
+    clearInterval(_interval);
+    handleFail && handleFail();
+  }, 5000);
+
+  var _interval = setInterval(function () {
+    if (node.offsetWidth != _width) {
+      clearTimeout(_timeOut);
+      clearInterval(_interval);
+      handleTickerComplete && handleTickerComplete(node);
+    }
+  }, 10);
+}
 /**
  * @class ImageLoader
  * @param {string} target

@@ -111,10 +111,11 @@ import ImageLoader from './lib/single/ImageLoader.js'
 import InlineLoader from './lib/single/InlineLoader.js'
 import DataLoader from './lib/single/DataLoader.js'
 import FontLoader from './lib/single/FontLoader.js'
+import { setTicker } from './lib/mixin/LoaderTicker.js'
 
 class Blank {}
 
-export { Utils as LoaderUtils, ImageLoader, InlineLoader, DataLoader, FontLoader }
+export { Utils as LoaderUtils, ImageLoader, InlineLoader, DataLoader, FontLoader, setTicker }
 
 export default class Loader extends mix(Blank).with(LoaderBase) {
 	constructor(...args) {
