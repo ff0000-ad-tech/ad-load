@@ -82,7 +82,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 exports.__esModule = true;
 exports.setTicker = setTicker;
-exports["default"] = exports.FontLoader = exports.DataLoader = exports.InlineLoader = exports.ImageLoader = exports.LoaderUtils = void 0;
+exports.LoaderUtils = exports.InlineLoader = exports.ImageLoader = exports.FontLoader = exports.DataLoader = exports["default"] = void 0;
 
 var _adGlobal = __webpack_require__(1);
 
@@ -314,7 +314,10 @@ function getParamsFromData(query) {
   }
 }
 
-var LoaderUtils = Object.freeze({
+var LoaderUtils =
+/*#__PURE__*/
+Object.freeze({
+  __proto__: null,
   createXMLHttpRequest: createXMLHttpRequest,
   getFileName: getFileName,
   getFontName: getFontName,
@@ -965,11 +968,6 @@ function (_mix$with4) {
  * </codeblock>
  */
 
-/* TODO
-	- change getAllContent() to take secret boolean so can call getAllContentRaw(true) for no extra loop
-	- ? comment out progress calculations
-*/
-
 
 exports.FontLoader = FontLoader;
 
@@ -996,7 +994,7 @@ function (_mix$with5) {
     L._total = 0;
     L._active = false;
     L._startedCount = 0;
-    L.prepend = arg.prepend || "";
+    L.prepend = arg.prepend || '';
     L.platformGetUrl = arg.platformGetUrl;
     L.fileType = arg.fileType || null;
     L.content = [];
@@ -1039,7 +1037,7 @@ function (_mix$with5) {
   _proto8.add = function add(arg) {
     var L = this;
 
-    if (typeof arg === "string") {
+    if (typeof arg === 'string') {
       // single load as first parameter
       L._addSingleLoad(arg);
     } else if (arg instanceof Array) {
@@ -1048,7 +1046,7 @@ function (_mix$with5) {
         L._addSingleLoad(arg[i]);
       }
     } else if (arg instanceof Loader) {
-      if (arg.content && arg.content[0] && arg.content[0].fileType == "fba") {
+      if (arg.content && arg.content[0] && arg.content[0].fileType == 'fba') {
         L._addFbaSubLoads(arg.content[0]);
       } else {
         L._addSubLoad(arg);
@@ -1075,7 +1073,7 @@ function (_mix$with5) {
       console.log('Loader "' + L.name + '" has NO assets to be loaded.');
     } else {
       var _has = false;
-      var _output = "";
+      var _output = '';
 
       for (var l in L._queue) {
         if (!(L._queue[l] instanceof Loader)) {
@@ -1086,9 +1084,9 @@ function (_mix$with5) {
 
           var fileName = L._queue[l].fileName;
           var extension = L._queue[l].fileType;
-          var extensionIndex = fileName.indexOf("." + extension);
-          var fileAndExtension = extensionIndex > -1 ? fileName : fileName + "." + extension;
-          _output += "\n\t -> " + (L._queue[l].prepend || "") + fileAndExtension;
+          var extensionIndex = fileName.indexOf('.' + extension);
+          var fileAndExtension = extensionIndex > -1 ? fileName : fileName + '.' + extension;
+          _output += '\n\t -> ' + (L._queue[l].prepend || '') + fileAndExtension;
         }
       }
 
@@ -1135,7 +1133,7 @@ function (_mix$with5) {
     searchSubLoader(this.content);
 
     if (_found.length < 1) {
-      console.log("No Content found");
+      console.log('No Content found');
     }
 
     return _found;
@@ -1211,7 +1209,7 @@ function (_mix$with5) {
     searchSubLoader(this.content);
 
     if (!_found) {
-      console.log("No Loader found of that name");
+      console.log('No Loader found of that name');
     }
 
     return _found;
@@ -1227,24 +1225,24 @@ function (_mix$with5) {
     var loaderType; // console.log('\t fileType:', fileType)
 
     switch (fileType) {
-      case "jpg":
-      case "jpeg":
-      case "gif":
-      case "png":
-      case "svg":
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
+      case 'png':
+      case 'svg':
         loaderType = ImageLoader;
         break;
 
-      case "ttf":
-      case "woff":
+      case 'ttf':
+      case 'woff':
         loaderType = FontLoader;
         break;
 
-      case "json":
-      case "fba":
-      case "bin":
-      case "binary":
-      case "svg+xml":
+      case 'json':
+      case 'fba':
+      case 'bin':
+      case 'binary':
+      case 'svg+xml':
         loaderType = DataLoader;
         break;
 
@@ -1333,14 +1331,14 @@ function (_mix$with5) {
       // skip over the content AND skip over the CRC value by incrementing by 4 bytes
 
       idx += length + 4;
-      var fileNameSplit = fileName.split("."); //var blobFileType = '';// 'application/octet-stream';
+      var fileNameSplit = fileName.split('.'); //var blobFileType = '';// 'application/octet-stream';
 
       var blobFileType = void 0;
 
-      if (type === "f") {
-        blobFileType = "application/" + (fileNameSplit[1] === "ttf" ? "x-font-ttf" : "font-" + fileNameSplit[1]);
+      if (type === 'f') {
+        blobFileType = 'application/' + (fileNameSplit[1] === 'ttf' ? 'x-font-ttf' : "font-" + fileNameSplit[1]);
       } else {
-        blobFileType = "image/" + (fileNameSplit[1] == "svg" ? "svg+xml" : fileNameSplit[1]);
+        blobFileType = 'image/' + (fileNameSplit[1] == 'svg' ? 'svg+xml' : fileNameSplit[1]);
       }
 
       var blob = new Blob([chunkData], {
