@@ -449,7 +449,7 @@ function setTicker(_temp) {
  */
 
 
-var Blank$1 = function Blank$1() {};
+var Blank = function Blank() {};
 
 var ImageLoader =
 /*#__PURE__*/
@@ -506,7 +506,7 @@ function (_mix$with) {
   };
 
   return ImageLoader;
-}(mix(Blank$1)["with"](LoaderBase, LoaderSource, LoaderTicker));
+}(mix(Blank)["with"](LoaderBase, LoaderSource, LoaderTicker));
 /**
  * @class InlineLoader
  * @param {string} target
@@ -527,7 +527,7 @@ function (_mix$with) {
 
 exports.ImageLoader = ImageLoader;
 
-var Blank$2 = function Blank$2() {};
+var Blank$1 = function Blank$1() {};
 
 var InlineLoader =
 /*#__PURE__*/
@@ -598,7 +598,7 @@ function (_mix$with2) {
   };
 
   return InlineLoader;
-}(mix(Blank$2)["with"](LoaderBase, LoaderSource));
+}(mix(Blank$1)["with"](LoaderBase, LoaderSource));
 /**
  * @class DataLoader
  * @param {string} target
@@ -625,7 +625,7 @@ function (_mix$with2) {
 
 exports.InlineLoader = InlineLoader;
 
-var Blank$3 = function Blank$3() {};
+var Blank$2 = function Blank$2() {};
 
 var DataLoader =
 /*#__PURE__*/
@@ -766,7 +766,7 @@ function (_mix$with3) {
   };
 
   return DataLoader;
-}(mix(Blank$3)["with"](LoaderBase, LoaderSource));
+}(mix(Blank$2)["with"](LoaderBase, LoaderSource));
 /**
  * @class FontLoader
  * @param {string} target
@@ -787,7 +787,7 @@ function (_mix$with3) {
 
 exports.DataLoader = DataLoader;
 
-var Blank$4 = function Blank$4() {};
+var Blank$3 = function Blank$3() {};
 
 var FontLoader =
 /*#__PURE__*/
@@ -863,7 +863,7 @@ function (_mix$with4) {
   };
 
   return FontLoader;
-}(mix(Blank$4)["with"](LoaderBase, LoaderSource, LoaderTicker));
+}(mix(Blank$3)["with"](LoaderBase, LoaderSource, LoaderTicker));
 /**
  * @class Loader
  * @param {string|array|Loader} target
@@ -973,7 +973,7 @@ function (_mix$with4) {
 
 exports.FontLoader = FontLoader;
 
-var Blank = function Blank() {};
+var Blank$4 = function Blank$4() {};
 
 var Loader =
 /*#__PURE__*/
@@ -996,7 +996,7 @@ function (_mix$with5) {
     L._total = 0;
     L._active = false;
     L._startedCount = 0;
-    L.prepend = arg.prepend || '';
+    L.prepend = arg.prepend || "";
     L.platformGetUrl = arg.platformGetUrl;
     L.fileType = arg.fileType || null;
     L.content = [];
@@ -1039,7 +1039,7 @@ function (_mix$with5) {
   _proto8.add = function add(arg) {
     var L = this;
 
-    if (typeof arg === 'string') {
+    if (typeof arg === "string") {
       // single load as first parameter
       L._addSingleLoad(arg);
     } else if (arg instanceof Array) {
@@ -1048,7 +1048,7 @@ function (_mix$with5) {
         L._addSingleLoad(arg[i]);
       }
     } else if (arg instanceof Loader) {
-      if (arg.content && arg.content[0] && arg.content[0].fileType == 'fba') {
+      if (arg.content && arg.content[0] && arg.content[0].fileType == "fba") {
         L._addFbaSubLoads(arg.content[0]);
       } else {
         L._addSubLoad(arg);
@@ -1075,7 +1075,7 @@ function (_mix$with5) {
       console.log('Loader "' + L.name + '" has NO assets to be loaded.');
     } else {
       var _has = false;
-      var _output = '';
+      var _output = "";
 
       for (var l in L._queue) {
         if (!(L._queue[l] instanceof Loader)) {
@@ -1086,9 +1086,9 @@ function (_mix$with5) {
 
           var fileName = L._queue[l].fileName;
           var extension = L._queue[l].fileType;
-          var extensionIndex = fileName.indexOf('.' + extension);
-          var fileAndExtension = extensionIndex > -1 ? fileName : fileName + '.' + extension;
-          _output += '\n\t -> ' + (L._queue[l].prepend || '') + fileAndExtension;
+          var extensionIndex = fileName.indexOf("." + extension);
+          var fileAndExtension = extensionIndex > -1 ? fileName : fileName + "." + extension;
+          _output += "\n\t -> " + (L._queue[l].prepend || "") + fileAndExtension;
         }
       }
 
@@ -1135,7 +1135,7 @@ function (_mix$with5) {
     searchSubLoader(this.content);
 
     if (_found.length < 1) {
-      console.log('No Content found');
+      console.log("No Content found");
     }
 
     return _found;
@@ -1211,7 +1211,7 @@ function (_mix$with5) {
     searchSubLoader(this.content);
 
     if (!_found) {
-      console.log('No Loader found of that name');
+      console.log("No Loader found of that name");
     }
 
     return _found;
@@ -1227,24 +1227,24 @@ function (_mix$with5) {
     var loaderType; // console.log('\t fileType:', fileType)
 
     switch (fileType) {
-      case 'jpg':
-      case 'jpeg':
-      case 'gif':
-      case 'png':
-      case 'svg':
+      case "jpg":
+      case "jpeg":
+      case "gif":
+      case "png":
+      case "svg":
         loaderType = ImageLoader;
         break;
 
-      case 'ttf':
-      case 'woff':
+      case "ttf":
+      case "woff":
         loaderType = FontLoader;
         break;
 
-      case 'json':
-      case 'fba':
-      case 'bin':
-      case 'binary':
-      case 'svg+xml':
+      case "json":
+      case "fba":
+      case "bin":
+      case "binary":
+      case "svg+xml":
         loaderType = DataLoader;
         break;
 
@@ -1333,14 +1333,14 @@ function (_mix$with5) {
       // skip over the content AND skip over the CRC value by incrementing by 4 bytes
 
       idx += length + 4;
-      var fileNameSplit = fileName.split('.'); //var blobFileType = '';// 'application/octet-stream';
+      var fileNameSplit = fileName.split("."); //var blobFileType = '';// 'application/octet-stream';
 
       var blobFileType = void 0;
 
-      if (type === 'f') {
-        blobFileType = 'application/' + (fileNameSplit[1] === 'ttf' ? 'x-font-ttf' : "font-" + fileNameSplit[1]);
+      if (type === "f") {
+        blobFileType = "application/" + (fileNameSplit[1] === "ttf" ? "x-font-ttf" : "font-" + fileNameSplit[1]);
       } else {
-        blobFileType = 'image/' + (fileNameSplit[1] == 'svg' ? 'svg+xml' : fileNameSplit[1]);
+        blobFileType = "image/" + (fileNameSplit[1] == "svg" ? "svg+xml" : fileNameSplit[1]);
       }
 
       var blob = new Blob([chunkData], {
@@ -1438,7 +1438,7 @@ function (_mix$with5) {
   };
 
   return Loader;
-}(mix(Blank)["with"](LoaderBase));
+}(mix(Blank$4)["with"](LoaderBase));
 
 var _default = Loader;
 exports["default"] = _default;
