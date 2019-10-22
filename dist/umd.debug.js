@@ -90,80 +90,44 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
-var mix = function mix(superclass) {
-  return new MixinBuilder(superclass);
-};
-
-var MixinBuilder =
+var LoaderBase =
 /*#__PURE__*/
 function () {
-  function MixinBuilder(superclass) {
-    this.superclass = superclass;
-  }
-
-  var _proto = MixinBuilder.prototype;
-
-  _proto["with"] = function _with() {
-    for (var _len = arguments.length, mixins = new Array(_len), _key = 0; _key < _len; _key++) {
-      mixins[_key] = arguments[_key];
+  function LoaderBase() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    return mixins.reduce(function (c, mixin) {
-      return mixin(c);
-    }, this.superclass);
+    var arg = arguments && arguments.length > 1 ? arguments[1] : arguments[0] || {};
+    var L = this;
+
+    L.onComplete = arg.onComplete || function () {};
+
+    L.onFail = arg.onFail || function () {};
+
+    L.onProgress = arg.onProgress || function () {};
+
+    L.name = arg.name || '';
+    L.scope = arg.scope || L;
+    L.dataRaw;
+    L.cacheBuster = arg.cacheBuster || false;
+    L._failCalled = false;
+  }
+
+  var _proto = LoaderBase.prototype;
+
+  _proto._handleFail = function _handleFail() {
+    var L = this; // console.log( 'LoaderBase._handleFail()' )
+
+    if (!L._failCalled) {
+      L._failCalled = true;
+      L.onFail.call(L.scope, L);
+      console.log('Loader "' + L.name + '" Fail:', L.url);
+    }
   };
 
-  return MixinBuilder;
+  return LoaderBase;
 }();
-
-var LoaderBase = function LoaderBase(superclass) {
-  return (
-    /*#__PURE__*/
-    function (_superclass) {
-      _inheritsLoose(_class, _superclass);
-
-      function _class() {
-        var _this;
-
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        _this = _superclass.call.apply(_superclass, [this].concat(args)) || this;
-        var arg = arguments && arguments.length > 1 ? arguments[1] : arguments[0] || {};
-
-        var L = _assertThisInitialized(_this);
-
-        L.onComplete = arg.onComplete || function () {};
-
-        L.onFail = arg.onFail || function () {};
-
-        L.onProgress = arg.onProgress || function () {};
-
-        L.name = arg.name || '';
-        L.scope = arg.scope || L;
-        L.dataRaw;
-        L.cacheBuster = arg.cacheBuster || false;
-        L._failCalled = false;
-        return _this;
-      }
-
-      var _proto2 = _class.prototype;
-
-      _proto2._handleFail = function _handleFail() {
-        var L = this; // console.log( 'LoaderBase._handleFail()' )
-
-        if (!L._failCalled) {
-          L._failCalled = true;
-          L.onFail.call(L.scope, L);
-          console.log('Loader "' + L.name + '" Fail:', L.url);
-        }
-      };
-
-      return _class;
-    }(superclass)
-  );
-};
 /**
  * @class LoaderUtils
  * @desc Various single use utilities for file names & paths, and query manipulations.
@@ -328,23 +292,49 @@ Object.freeze({
 });
 exports.LoaderUtils = LoaderUtils;
 
-var LoaderSource = function LoaderSource(superclass) {
+var mix = function mix(superclass) {
+  return new MixinBuilder(superclass);
+};
+
+var MixinBuilder =
+/*#__PURE__*/
+function () {
+  function MixinBuilder(superclass) {
+    this.superclass = superclass;
+  }
+
+  var _proto2 = MixinBuilder.prototype;
+
+  _proto2["with"] = function _with() {
+    for (var _len2 = arguments.length, mixins = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      mixins[_key2] = arguments[_key2];
+    }
+
+    return mixins.reduce(function (c, mixin) {
+      return mixin(c);
+    }, this.superclass);
+  };
+
+  return MixinBuilder;
+}();
+
+var LoaderSourceMixin = function LoaderSourceMixin(superclass) {
   return (
     /*#__PURE__*/
-    function (_superclass2) {
-      _inheritsLoose(_class2, _superclass2);
+    function (_superclass) {
+      _inheritsLoose(_class, _superclass);
 
-      function _class2() {
-        var _this2;
+      function _class() {
+        var _this;
 
         for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
           args[_key3] = arguments[_key3];
         }
 
-        _this2 = _superclass2.call.apply(_superclass2, [this].concat(args)) || this;
+        _this = _superclass.call.apply(_superclass, [this].concat(args)) || this;
         var arg = arguments && arguments.length > 1 ? arguments[1] : arguments[0] || {};
 
-        var L = _assertThisInitialized(_this2);
+        var L = _assertThisInitialized(_this);
 
         L.url = (0, _adGlobal.matchProtocolTo)(arguments[0] || '');
 
@@ -355,29 +345,29 @@ var LoaderSource = function LoaderSource(superclass) {
 
         L.fileName = arg.id === undefined ? getFileName(L.url) : arg.id;
         L.fileType = arg.fileType || getFileType(L.url);
-        return _this2;
+        return _this;
       }
 
-      return _class2;
+      return _class;
     }(superclass)
   );
 };
 
-var LoaderTicker = function LoaderTicker(superclass) {
+var LoaderTickerMixin = function LoaderTickerMixin(superclass) {
   return (
     /*#__PURE__*/
-    function (_superclass3) {
-      _inheritsLoose(_class3, _superclass3);
+    function (_superclass2) {
+      _inheritsLoose(_class2, _superclass2);
 
-      function _class3() {
+      function _class2() {
         for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
           args[_key4] = arguments[_key4];
         }
 
-        return _superclass3.call.apply(_superclass3, [this].concat(args)) || this;
+        return _superclass2.call.apply(_superclass2, [this].concat(args)) || this;
       }
 
-      var _proto3 = _class3.prototype;
+      var _proto3 = _class2.prototype;
 
       _proto3._setTicker = function _setTicker(args) {
         var L = this;
@@ -395,7 +385,7 @@ var LoaderTicker = function LoaderTicker(superclass) {
         node.parentNode.removeChild(node);
       };
 
-      return _class3;
+      return _class2;
     }(superclass)
   );
 };
@@ -452,26 +442,24 @@ function setTicker(_temp) {
  */
 
 
-var Blank = function Blank() {};
-
 var ImageLoader =
 /*#__PURE__*/
 function (_mix$with) {
   _inheritsLoose(ImageLoader, _mix$with);
 
   function ImageLoader() {
-    var _this3;
+    var _this2;
 
     for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
       args[_key5] = arguments[_key5];
     }
 
-    _this3 = _mix$with.call.apply(_mix$with, [this].concat(args)) || this;
+    _this2 = _mix$with.call.apply(_mix$with, [this].concat(args)) || this;
     var arg = arguments && arguments.length > 1 ? arguments[1] : arguments[0] || {}; // used when only needing to render, such as writing into the DOM as markup <svg>
 
-    _this3.renderOnly = !!arg.renderOnly;
-    _this3.crossOrigin = arg.crossOrigin;
-    return _this3;
+    _this2.renderOnly = !!arg.renderOnly;
+    _this2.crossOrigin = arg.crossOrigin;
+    return _this2;
   }
   /**
    * @memberOf ImageLoader
@@ -509,7 +497,7 @@ function (_mix$with) {
   };
 
   return ImageLoader;
-}(mix(Blank)["with"](LoaderBase, LoaderSource, LoaderTicker));
+}(mix(LoaderBase)["with"](LoaderSourceMixin, LoaderTickerMixin));
 /**
  * @class InlineLoader
  * @param {string} target
@@ -529,8 +517,6 @@ function (_mix$with) {
 
 
 exports.ImageLoader = ImageLoader;
-
-var Blank$1 = function Blank$1() {};
 
 var InlineLoader =
 /*#__PURE__*/
@@ -601,7 +587,7 @@ function (_mix$with2) {
   };
 
   return InlineLoader;
-}(mix(Blank$1)["with"](LoaderBase, LoaderSource));
+}(mix(LoaderBase)["with"](LoaderSourceMixin));
 /**
  * @class DataLoader
  * @param {string} target
@@ -628,29 +614,27 @@ function (_mix$with2) {
 
 exports.InlineLoader = InlineLoader;
 
-var Blank$2 = function Blank$2() {};
-
 var DataLoader =
 /*#__PURE__*/
 function (_mix$with3) {
   _inheritsLoose(DataLoader, _mix$with3);
 
   function DataLoader() {
-    var _this4;
+    var _this3;
 
     for (var _len7 = arguments.length, args = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
       args[_key7] = arguments[_key7];
     }
 
-    _this4 = _mix$with3.call.apply(_mix$with3, [this].concat(args)) || this;
+    _this3 = _mix$with3.call.apply(_mix$with3, [this].concat(args)) || this;
     var arg = arguments && arguments.length > 1 ? arguments[1] : arguments[0] || {};
 
-    var D = _assertThisInitialized(_this4);
+    var D = _assertThisInitialized(_this3);
 
     D.method = (arg.method || 'get').toLowerCase();
     D.query = arg.query || null;
     D.responseType = arg.responseType || null;
-    return _this4;
+    return _this3;
   }
   /**
    * @memberOf DataLoader
@@ -769,7 +753,7 @@ function (_mix$with3) {
   };
 
   return DataLoader;
-}(mix(Blank$2)["with"](LoaderBase, LoaderSource));
+}(mix(LoaderBase)["with"](LoaderSourceMixin));
 /**
  * @class FontLoader
  * @param {string} target
@@ -789,8 +773,6 @@ function (_mix$with3) {
 
 
 exports.DataLoader = DataLoader;
-
-var Blank$3 = function Blank$3() {};
 
 var FontLoader =
 /*#__PURE__*/
@@ -866,7 +848,7 @@ function (_mix$with4) {
   };
 
   return FontLoader;
-}(mix(Blank$3)["with"](LoaderBase, LoaderSource, LoaderTicker));
+}(mix(LoaderBase)["with"](LoaderSourceMixin, LoaderTickerMixin));
 /**
  * @class Loader
  * @param {string|array|Loader} target
@@ -971,24 +953,22 @@ function (_mix$with4) {
 
 exports.FontLoader = FontLoader;
 
-var Blank$4 = function Blank$4() {};
-
 var Loader =
 /*#__PURE__*/
-function (_mix$with5) {
-  _inheritsLoose(Loader, _mix$with5);
+function (_LoaderBase) {
+  _inheritsLoose(Loader, _LoaderBase);
 
   function Loader() {
-    var _this5;
+    var _this4;
 
     for (var _len9 = arguments.length, args = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
       args[_key9] = arguments[_key9];
     }
 
-    _this5 = _mix$with5.call.apply(_mix$with5, [this].concat(args)) || this;
+    _this4 = _LoaderBase.call.apply(_LoaderBase, [this].concat(args)) || this;
     var arg = arguments && arguments.length > 1 ? arguments[1] : arguments[0] || {};
 
-    var L = _assertThisInitialized(_this5);
+    var L = _assertThisInitialized(_this4);
 
     L._queue = {};
     L._total = 0;
@@ -1000,7 +980,7 @@ function (_mix$with5) {
     L.content = [];
     L.crossOrigin = arg.crossOrigin || undefined;
     L.add(arguments[0]);
-    return _this5;
+    return _this4;
   }
   /* ---------------------------------------------------------------------------------------------------------------- */
   // PUBLIC
@@ -1436,7 +1416,7 @@ function (_mix$with5) {
   };
 
   return Loader;
-}(mix(Blank$4)["with"](LoaderBase));
+}(LoaderBase);
 
 var _default = Loader;
 exports["default"] = _default;

@@ -104,20 +104,17 @@
 	- ? comment out progress calculations
 */
 
-import { mix } from './lib/mixin/MixinBuilder.js'
 import { LoaderBase } from './lib/mixin/LoaderBase.js'
 import * as Utils from './lib/mixin/LoaderUtils.js'
 import ImageLoader from './lib/single/ImageLoader.js'
 import InlineLoader from './lib/single/InlineLoader.js'
 import DataLoader from './lib/single/DataLoader.js'
 import FontLoader from './lib/single/FontLoader.js'
-import { setTicker } from './lib/mixin/LoaderTicker.js'
-
-class Blank {}
+import { setTicker } from '@ff0000-ad-tech/ad-load/lib/mixin/LoaderTickerMixin.js'
 
 export { Utils as LoaderUtils, ImageLoader, InlineLoader, DataLoader, FontLoader, setTicker }
 
-export default class Loader extends mix(Blank).with(LoaderBase) {
+export default class Loader extends LoaderBase {
 	constructor(...args) {
 		super(...args)
 		let arg = arguments && arguments.length > 1 ? arguments[1] : arguments[0] || {}
