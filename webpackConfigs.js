@@ -1,7 +1,7 @@
 const path = require('path')
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 
-const getBaseConfig = (override = {}, babelOptions) =>
+const getBaseConfig = (override = {}, babelOptions, wrbLoaderTest) =>
 	Object.assign(
 		{
 			entry: path.resolve(__dirname, 'index.js'),
@@ -19,10 +19,7 @@ const getBaseConfig = (override = {}, babelOptions) =>
 				rules: [
 					// Rollup + Babel loader to generate smaller bundle, use one entry point
 					{
-						test: request => {
-							const isAdLoadIndex = request.includes('ad-load') && request.endsWith('index.js')
-							return isAdLoadIndex
-						},
+						test: wrbLoaderTest,
 						use: [
 							{
 								loader: '@ff0000-ad-tech/webpack-rollup-babel-loader',
@@ -55,6 +52,16 @@ const getBaseConfig = (override = {}, babelOptions) =>
 		},
 		override
 	)
+
+const isAdLoadTest = request => {
+	const isAdLoadIndex = request.includes('ad-load') && request.endsWith('index.js')
+	return isAdLoadIndex
+}
+
+const isInlineLoaderTest = request => {
+	const isAdLoadIndex = request.includes('ad-load') && request.endsWith('InlineLoader.js')
+	return isAdLoadIndex
+}
 
 const debugBabelOptions = {
 	presets: [
@@ -100,7 +107,8 @@ const debugInlineLoaderConfig = getBaseConfig(
 			libraryTarget: 'umd'
 		}
 	},
-	debugBabelOptions
+	debugBabelOptions,
+	isInlineLoaderTest
 )
 
 const prodInlineLoaderConfig = getBaseConfig(
@@ -114,7 +122,8 @@ const prodInlineLoaderConfig = getBaseConfig(
 		},
 		plugins: prodPlugins()
 	},
-	prodBabelOptions
+	prodBabelOptions,
+	isInlineLoaderTest
 )
 
 const productionConfig = getBaseConfig(
@@ -127,7 +136,8 @@ const productionConfig = getBaseConfig(
 		},
 		plugins: prodPlugins()
 	},
-	prodBabelOptions
+	prodBabelOptions,
+	isAdLoadTest
 )
 
 const debugConfig = getBaseConfig(
@@ -139,7 +149,8 @@ const debugConfig = getBaseConfig(
 			libraryTarget: 'umd'
 		}
 	},
-	debugBabelOptions
+	debugBabelOptions,
+	isAdLoadTest
 )
 
 module.exports = getBaseConfig
