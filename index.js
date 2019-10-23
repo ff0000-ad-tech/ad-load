@@ -110,7 +110,7 @@ import ImageLoader from './lib/single/ImageLoader.js'
 import InlineLoader from './lib/single/InlineLoader.js'
 import DataLoader from './lib/single/DataLoader.js'
 import FontLoader from './lib/single/FontLoader.js'
-import { setTicker } from '@ff0000-ad-tech/ad-load/lib/mixin/LoaderTickerMixin.js'
+import { setTicker } from './lib/mixin/LoaderTickerMixin.js'
 
 export { Utils as LoaderUtils, ImageLoader, InlineLoader, DataLoader, FontLoader, setTicker }
 
