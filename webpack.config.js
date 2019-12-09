@@ -5,14 +5,14 @@ const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin
 const babelOptions = {
 	"presets": [
 		[
-			"env",
+      "@babel/preset-env",
 			{
 				"loose": true,
 			}
 		]
 	],
 	"plugins": [
-		"transform-class-properties",
+		"@babel/plugin-proposal-class-properties",
 		"transform-remove-console"
 	]
 }
